@@ -12,7 +12,6 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Roboto', sans-serif;
-      /* Fallback background color & gradient background image */
       background-color: #1e3c72;
       background-image: linear-gradient(135deg, #1e3c72, #2a5298);
       background-attachment: fixed;
@@ -193,9 +192,9 @@
       margin-bottom: 10px;
       text-shadow: 2px 2px 4px black;
     }
+    /* Removed fading: set opacity to 1 without transition */
     #quoteDisplay {
-      opacity: 0;
-      transition: opacity 1s ease-in;
+      opacity: 1;
     }
     .nav-buttons {
       margin-top: 20px;
@@ -220,7 +219,7 @@
       color: #333;
       border-radius: 10px;
       padding: 15px;
-      margin: 20px auto 140px;
+      margin: 20px auto 20px;
       max-width: 400px;
     }
     .maze-section h1 {
@@ -253,17 +252,14 @@
     }
     .maze-cell.player::after { content: "☺"; color: #ff6f61; }
     .maze-cell.goal::after { content: "❤"; color: red; }
-    /* On-screen Maze Controls */
+    /* Maze Controls (now positioned below the maze) */
     .controls {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       gap: 10px;
-      width: 90%;
+      justify-content: center;
+      margin: 20px auto;
+      width: 100%;
       max-width: 400px;
-      z-index: 5;
     }
     .controls button {
       flex: 1;
@@ -394,14 +390,14 @@
       <h1 class="glow">Labyrinth of Love</h1>
       <div id="maze" class="maze-container"></div>
     </section>
-  </div>
-  
-  <!-- On-screen Maze Controls -->
-  <div class="controls">
-    <button onclick="move('up')">&#8593;</button>
-    <button onclick="move('left')">&#8592;</button>
-    <button onclick="move('down')">&#8595;</button>
-    <button onclick="move('right')">&#8594;</button>
+    
+    <!-- On-screen Maze Controls (now below the maze) -->
+    <div class="controls">
+      <button onclick="move('up')">&#8593;</button>
+      <button onclick="move('left')">&#8592;</button>
+      <button onclick="move('down')">&#8595;</button>
+      <button onclick="move('right')">&#8594;</button>
+    </div>
   </div>
   
   <!-- Secret Reveal Modal -->
@@ -510,7 +506,7 @@
     }
     
     /* ------------------------------
-         Love Quotes Logic with Fade-In
+         Love Quotes Logic (no fading)
     ------------------------------ */
     const quotes = [
       "You are my today and all of my tomorrows. ❤️",
@@ -538,20 +534,13 @@
     let currentQuoteIndex = 0;
     const quoteDisplay = document.getElementById("quoteDisplay");
     quoteDisplay.innerText = quotes[currentQuoteIndex];
-    function fadeInQuote(newText) {
-      quoteDisplay.style.opacity = 0;
-      setTimeout(() => {
-        quoteDisplay.innerText = newText;
-        quoteDisplay.style.opacity = 1;
-      }, 500);
-    }
     function nextQuote() {
       currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-      fadeInQuote(quotes[currentQuoteIndex]);
+      quoteDisplay.innerText = quotes[currentQuoteIndex];
     }
     function prevQuote() {
       currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
-      fadeInQuote(quotes[currentQuoteIndex]);
+      quoteDisplay.innerText = quotes[currentQuoteIndex];
     }
     setInterval(nextQuote, 8000);
     
